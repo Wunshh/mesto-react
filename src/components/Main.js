@@ -30,22 +30,16 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
   }, []);
 
   useEffect(() => {
-    api.getUserInfoFromServer(userAvatar, userName, userDescription)
+    api.getUserInfoFromServer()
     .then(res => {
-      const userData = {
-          avatar: res.avatar,
-          name: res.name,
-          about: res.about,
-          id: res._id,
-      };
-      setUserAvatar(userData.avatar);
-      setUserName(userData.name);
-      setUserDescription(userData.about);
+      setUserAvatar(res.avatar);
+      setUserName(res.name);
+      setUserDescription(res.about);
     })
     .catch((err) => {
         console.log(err);
     });
-  });
+  }, []);
 
     return(
         <main>
