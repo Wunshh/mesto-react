@@ -1,0 +1,12 @@
+.card__botton-counter {
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    text-align: center;
+    color: #000000;
+    margin-left: auto;
+    margin: 0;
+    padding: 0;
+}

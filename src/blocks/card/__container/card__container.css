@@ -1,0 +1,10 @@
+.card__container {
+    border-radius: 0px 0px 10px 10px;
+    border: none;
+    background-color: #FFFFFF;
+    display: grid;
+    grid-template-columns: 1fr 22px;
+    box-sizing: border-box;
+    max-height: 79px;
+    padding: 25px 15px 31px 21px;
+}

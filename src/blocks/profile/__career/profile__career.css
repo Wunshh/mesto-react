@@ -1,0 +1,23 @@
+.profile__career {
+    margin: 16px 0 0;
+    font-family: "Inter", "Arial", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #ffffff;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 294px;
+}
+
+@media screen and (max-width: 767px) {
+    .profile__career {
+        font-size: 14px;
+        line-height: 17px;
+        text-align: center;
+        margin: 14px 0 0;
+        max-width: 282px;
+    }
+}

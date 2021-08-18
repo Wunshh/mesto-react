@@ -1,0 +1,8 @@
+.profile__avatar-container:hover {
+   content: '';
+   background-image: url('../../../images/avatar_pen.svg');
+   background-repeat: no-repeat;
+   background-position: center;
+   position: relative;
+   z-index: 1;
+}

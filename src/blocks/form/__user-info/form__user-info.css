@@ -1,0 +1,9 @@
+.form__user-info {
+    font-family: "Inter", "Arial", sans-serif;
+    height: 27px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    margin: 0;
+    font-size: 14px;
+    line-height: 17px;
+}
