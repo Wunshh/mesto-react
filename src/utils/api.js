@@ -20,6 +20,7 @@ class Api {
     }
   
     postCards(item) {
+        debugger
         return fetch(`${this._url}/cards`, {
             method: "POST",
             headers: this._headers,
@@ -27,7 +28,7 @@ class Api {
               name: item.name,
               link: item.link,
             })
-        })
+        } )
         .then(this._checkResponse)
     }
   
@@ -39,7 +40,7 @@ class Api {
       .then(this._checkResponse)
     }
   
-    changeLikeCard(item, like) {
+    changeLikeCardStatus(item, like) {
       return fetch(`${this._url}/cards/likes/${item}`, {
           method: like ? 'DELETE' : 'PUT',
           headers: this._headers,
