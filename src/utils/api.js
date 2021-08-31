@@ -20,7 +20,6 @@ class Api {
     }
   
     postCards(item) {
-        debugger
         return fetch(`${this._url}/cards`, {
             method: "POST",
             headers: this._headers,

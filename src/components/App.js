@@ -16,17 +16,18 @@ function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
     const [selectedCard, setSelectedCard] = useState({name: "", link: ""});
-    const [currentUser, setCurrentUser] = useState("");
+    const [currentUser, setCurrentUser] = useState([]);
     const [cards, setCards] = useState([]);
 
     useEffect(() => {
-        api.getInitialCards()
-        .then(cardData => {
-          setCards(cardData);
+        Promise.all([api.getInitialCards(), api.getUserInfoFromServer()])
+        .then(([dataCards, dataUser]) => {
+            setCards(dataCards);
+            setCurrentUser(dataUser);
         })
         .catch((err) => {
             console.log(err);
-        })
+        });
     }, []);
 
     function handleCardLike(card) {
@@ -36,8 +37,7 @@ function App() {
       
         api.changeLikeCardStatus(card._id, isLiked)
         .then((newCard) => {
-            const newCards = cards.map((c) => c._id === card._id ? newCard : c);
-            setCards(newCards);
+            setCards(cards => cards.map((c) => c._id === card._id ? newCard : c));
         })
         .catch((err) => {
             console.log(err);
@@ -50,33 +50,19 @@ function App() {
             console.log(err);
         });
     
-        const newCardsArray = cards.filter((c) => c._id !== card._id);
-        setCards(newCardsArray);
+        setCards(cards => cards.filter((state) => state._id !== card._id))
     }
 
     function handleAddPlaceSubmit(item) {
-        debugger
         api.postCards(item)
         .then(newCard => {
             setCards([newCard, ...cards]);
+            closeAllPopups();
         })
         .catch((err) => {
             console.log(err);
         });
-
-        closeAllPopups();
     }
-
-
-    useEffect(() => {
-        api.getUserInfoFromServer()
-        .then(res => {
-            setCurrentUser(res);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-      }, []);
 
     function handleEditAvatarClick() {
         setIsEditAvatarPopupOpen(true);
@@ -105,22 +91,22 @@ function App() {
         api.updateUserData(item)
         .then(res => {
             setCurrentUser(res);
+            closeAllPopups();
         })
         .catch((err) => {
             console.log(err);
         });
-        closeAllPopups();
     }
 
     function handleUpdateAvatar(item) {
         api.updateUserAvatar(item) 
         .then(res => {
             setCurrentUser(res);
+            closeAllPopups();
         })
         .catch((err) => {
             console.log(err);
         });
-        closeAllPopups();
     }
 
   return (
