@@ -34,9 +34,9 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser}) {
 
     return(
         <PopupWithForm name="edit" title="Редактировать профиль" buttonText="Сохранить" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
-            <input className="form__user-info form__user-info_user_name form__input" id="input-name" name="name" value={name} onChange={handleNameChange} type="text" required placeholder="Имя" minLength="2" maxLength="40"/>
+            <input className="form__user-info form__user-info_user_name form__input" id="input-name" name="name" value={name || ""} onChange={handleNameChange} type="text" required placeholder="Имя" minLength="2" maxLength="40"/>
             <span className="form__input-error input-name-error"></span>
-            <input className="form__user-info form__user-info_user_job form__input" id="input-job" name="description" value={description} onChange={handleDescriptionChange} type="text" required placeholder="О себе" minLength="2" maxLength="200"/>
+            <input className="form__user-info form__user-info_user_job form__input" id="input-job" name="description" value={description || ""} onChange={handleDescriptionChange} type="text" required placeholder="О себе" minLength="2" maxLength="200"/>
             <span className="form__input-error input-job-error"></span> 
         </PopupWithForm>
     );
