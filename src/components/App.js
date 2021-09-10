@@ -15,7 +15,9 @@ function App() {
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+    const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
     const [selectedCard, setSelectedCard] = useState({name: "", link: ""});
+    const [selectedCardDelet, setSelectedCardDelete] = useState(null);
     const [currentUser, setCurrentUser] = useState({});
     const [cards, setCards] = useState([]);
 
@@ -44,13 +46,21 @@ function App() {
         });
     }
     
-     function handleCardDelete(card) {
-        api.handlerdeleteCards(card._id)
+    function handleCardDelete(evt) {
+        evt.preventDefault();
+        api.handlerdeleteCards(selectedCardDelet._id)
+        .then(() => {
+            setCards(cards => cards.filter((c) => c._id !== selectedCardDelet._id));
+            setIsDeletePopupOpen(false);
+        })
         .catch((err) => {
             console.log(err);
         });
-    
-        setCards(cards => cards.filter((state) => state._id !== card._id))
+    }
+
+    function handleDeleteCardClick(card) {
+        setSelectedCardDelete(card);
+        setIsDeletePopupOpen(true);
     }
 
     function handleAddPlaceSubmit(item) {
@@ -80,10 +90,23 @@ function App() {
         setSelectedCard(card);
     }
 
+    function handleClosePopupKeyDown(evt) {
+        if(evt.key === "Escape") {
+            closeAllPopups();
+        }
+    }
+
+    function handleClosePopupOverlayClick(evt) {
+        if(evt.target.classList.contains("popup")) {
+            closeAllPopups();
+        }
+    }
+
     function closeAllPopups() {
         setIsEditAvatarPopupOpen(false);
         setIsEditProfilePopupOpen(false);
         setIsAddPlacePopupOpen(false);
+        setIsDeletePopupOpen(false);
         setSelectedCard({name: "", link: ""});
     }
 
@@ -120,7 +143,7 @@ function App() {
                 onEditAvatar={handleEditAvatarClick} 
                 onCardClick={handleCardClick} 
                 onCardLike={handleCardLike} 
-                onCardDelite={handleCardDelete}
+                onCardDelite={handleDeleteCardClick}
                 onCards={cards}
             />
 
@@ -130,26 +153,43 @@ function App() {
                 isOpen={isEditProfilePopupOpen} 
                 onClose={closeAllPopups} 
                 onUpdateUser={handleUpdateUser}
+                onCloseKeyDown={handleClosePopupKeyDown}
+                onCloseOverlayClick={handleClosePopupOverlayClick}
             />
 
             <EditAvatarPopup 
                 isOpen={isEditAvatarPopupOpen} 
                 onClose={closeAllPopups} 
                 onUpdateAvatar={handleUpdateAvatar}
+                onCloseKeyDown={handleClosePopupKeyDown}
+                onCloseOverlayClick={handleClosePopupOverlayClick}
             />
 
             <AddPlacePopup 
                 isOpen={isAddPlacePopupOpen} 
                 onClose={closeAllPopups}
-                onAddPlace={handleAddPlaceSubmit} 
+                onAddPlace={handleAddPlaceSubmit}
+                onCloseKeyDown={handleClosePopupKeyDown}
+                onCloseOverlayClick={handleClosePopupOverlayClick}
             />
 
             <ImagePopup 
                 card={selectedCard} 
                 onClose={closeAllPopups} 
+                onCloseKeyDown={handleClosePopupKeyDown}
+                onCloseOverlayClick={handleClosePopupOverlayClick}
             />         
 
-            <PopupWithForm name="delete-image" title="Вы уверены?" buttonText="Да" />
+            <PopupWithForm 
+                name="delete-image" 
+                title="Вы уверены?" 
+                buttonText="Да" 
+                isOpen={isDeletePopupOpen}
+                onClose={closeAllPopups}
+                onCloseKeyDown={handleClosePopupKeyDown}
+                onCloseOverlayClick={handleClosePopupOverlayClick}
+                onSubmit={handleCardDelete}
+            />
         </div>
     </CurrentUserContext.Provider>    
   );

@@ -1,7 +1,7 @@
 import { useState, useEffect} from 'react';
 import PopupWithForm from "./PopupWithForm.js";
 
-export default function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
+export default function AddPlacePopup({ isOpen, onClose, onAddPlace, onCloseOverlayClick }) {
 
     const [cardName, setCardName] = useState("");
     const [cardLink, setCardLink] = useState("");
@@ -29,7 +29,15 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
     }, [isOpen]);
 
     return(
-        <PopupWithForm name="new-card" title="Новое место" buttonText="Создать" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
+        <PopupWithForm 
+            name="new-card" 
+            title="Новое место" 
+            buttonText="Создать" 
+            isOpen={isOpen} 
+            onClose={onClose} 
+            onSubmit={handleSubmit}
+            onCloseOverlayClick={onCloseOverlayClick}
+         >
             <input 
                 className="form__user-info form__user-info_photo_name" 
                 id="input-title" 
